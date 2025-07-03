@@ -1,53 +1,37 @@
 import java.util.*;
 
 public class Main {
-    static class Person {
-        String name;
-        String email;
-        int age;
-
-        Person(String name, String email, int age) {
-            this.name = name;
-            this.email = email;
-            this.age = age;
-        }
-
-        @Override
-        public String toString() {
-            return name + " - " + email + " - " + age;
-        }
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Person> people = new ArrayList<>();
+        List<String[]> people = new ArrayList<>();
 
         while (true) {
-            System.out.print("Enter name (or 'done' to finish): ");
+            System.out.print("Name (or 'done'): ");
             String name = scanner.nextLine();
             if (name.equalsIgnoreCase("done")) break;
 
-            System.out.print("Enter email: ");
+            System.out.print("Email: ");
             String email = scanner.nextLine();
 
-            System.out.print("Enter age: ");
+            System.out.print("Age: ");
             int age;
             try {
                 age = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid age. Try again.");
+                System.out.println("Invalid number. Try again.\n");
                 continue;
             }
 
-            people.add(new Person(name, email, age));
+            people.add(new String[] {name, email, String.valueOf(age)});
+            System.out.println("Person added!\n");
         }
 
-        // Sort people by age (ascending)
-        people.sort(Comparator.comparingInt(p -> p.age));
+        // Sort by age (convert age string to int)
+        people.sort(Comparator.comparingInt(p -> Integer.parseInt(p[2])));
 
-        System.out.println("\nSorted by age:");
-        for (Person p : people) {
-            System.out.println(p);
+        System.out.println("\n--- People Sorted by Age ---");
+        for (String[] p : people) {
+            System.out.println(p[0] + " | " + p[1] + " | Age: " + p[2]);
         }
 
         scanner.close();
